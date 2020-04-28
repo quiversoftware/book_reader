@@ -1,8 +1,6 @@
 import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:file_picker/file_picker.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -14,7 +12,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _fileName;
 
   @override
   Widget build(BuildContext context) {
