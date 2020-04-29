@@ -23,8 +23,15 @@ class Book {
     return totalPages;
   }
 
+  Future<String> _getPage(pageNumber) async{
+    PDFPage page = this._doc.pageAt(pageNumber);
+    String pageText = await page.text;
+    return pageText;
+  }
+
   Future<String> get text async => _getText();
   Future<int>    get totalPages async => _getTotalPages();
+  Future<String> get page async => _getPage(int);
 
 }
 
