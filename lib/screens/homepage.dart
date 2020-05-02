@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:book_reader/services/my_file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:book_reader/models/book.dart';
+import 'package:book_reader/models/load_book.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -14,7 +14,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   MyFilePicker _filePicker;
-  Book book;
+  LoadBook loadBook;
   String textPage = '';
   _MyHomePageState(this._filePicker);
   @override
@@ -43,11 +43,14 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () async {
           File file = await _filePicker.getFile();
           if(file != null ){
-            book = await Book.create(file);
-            String page = await book.page(50);
-            setState(() {
-              textPage = page;
-            });
+            loadBook = await LoadBook.create(file);
+            List book = await loadBook.toList();
+            int page = book.length;
+            int page2 = await loadBook.totalPages;
+            Navigator.of(context).pushNamed('/book_content', arguments: book);
+//            print('**********************************');
+//            print(page2);
+//            print(bok.length);
           }
         },
         tooltip: 'Increment',

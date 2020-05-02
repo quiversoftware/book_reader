@@ -1,3 +1,5 @@
+
+import 'package:book_reader/route_generator.dart';
 import 'package:book_reader/screens/homepage.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +16,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Book Reader'),
+      initialRoute: '/',
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }
