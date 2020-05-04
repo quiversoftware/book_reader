@@ -14,9 +14,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   MyFilePicker _filePicker;
+  _MyHomePageState(this._filePicker);
+
   LoadBook loadBook;
   String textPage = '';
-  _MyHomePageState(this._filePicker);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,14 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () async {
           File file = await _filePicker.getFile();
           if(file != null ){
-            loadBook = await LoadBook.create(file);
-            List book = await loadBook.toList();
-            int page = book.length;
-            int page2 = await loadBook.totalPages;
-            Navigator.of(context).pushNamed('/book_content', arguments: book);
-//            print('**********************************');
-//            print(page2);
-//            print(bok.length);
+            Navigator.of(context).pushNamed('/loading_book', arguments: file);
           }
         },
         tooltip: 'Increment',
