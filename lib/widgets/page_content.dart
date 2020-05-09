@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class PageContent extends StatefulWidget {
   final String page;
-  PageContent({this.page});
+  final Function hideOptionsCallback;
+  PageContent({this.page, this.hideOptionsCallback});
 
   @override
   _PageContentState createState() => _PageContentState();
@@ -17,17 +18,23 @@ class _PageContentState extends State<PageContent> {
     _page = widget.page ?? '';
   }
 
-  void updatePage(String page){
-    setState(() {
-      this._page = page;
-    });
+  void screenTapped(){
+    widget.hideOptionsCallback();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SingleChildScrollView(
-        child: Text(_page),
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: GestureDetector(
+            onTap: () => screenTapped(),
+            child: Container(
+              alignment: Alignment.center,
+              child: Text('Hello World!'),
+              color: Color(0xfffdf5e6),
+            )
+        ),
       ),
     );
   }

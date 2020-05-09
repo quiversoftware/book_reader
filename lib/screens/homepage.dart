@@ -42,10 +42,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          File file = await _filePicker.getFile();
-          if(file != null ){
-            Navigator.of(context).pushNamed('/loading_book', arguments: file);
-          }
+//          File file = await _filePicker.getFile();
+//          if(file != null ){
+//            Navigator.of(context).pushNamed('/loading_book', arguments: file);
+//          }
+          List list = new List();
+          list.add('Conteeeent de test');
+          Navigator.of(context).pushNamed('/book_content', arguments: list);
+
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
