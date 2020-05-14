@@ -47,7 +47,16 @@ class _MyHomePageState extends State<MyHomePage> {
 //            Navigator.of(context).pushNamed('/loading_book', arguments: file);
 //          }
           List list = new List();
-          list.add('Conteeeent de test');
+          list.add('page1 - The Conference on Information and Knowledge Management (CIKM) is a key event for the international academic, '
+              'business and government communities to discuss research on information retrieval, data science, and knowledge management. '
+              'CIKM is uniquely situated to highlight '
+              'technologies and insights that materialize the big data and artificial intelligence vision of the future.');
+          list.add('page2 - CIKM 2020 will be a fully virtual conference, with no travel involved, and presentations will be given '
+              'via pre-recorded videos, followed by synchronized online discussions during the scheduled conference period.');
+          list.add('page3 - Topics of Interest  '
+              'We encourage submissions of high-quality research papers on all topics in the general areas of'
+              ' artificial intelligence, databases, information retrieval, and knowledge management. Topics of interest include,'
+              ' but are not limited to, the following areas:');
           Navigator.of(context).pushNamed('/book_content', arguments: list);
 
         },

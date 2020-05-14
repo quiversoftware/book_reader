@@ -13,12 +13,42 @@ class BookContent extends StatefulWidget{
 
 class _BookContentState extends State<BookContent> {
   bool _isVisible = true;
-  int count = 0;
+  int _index = 0;
+  String _page = '';
+
+  @override
+  void initState(){
+    super.initState();
+    _page = widget.book[_index];
+  }
+
 
   void _hideOptions(){
     print('has been touched');
     setState(() {
       _isVisible = _isVisible ? false : true;
+    });
+  }
+
+  void _nextPage(){
+    setState(() {
+      print('init index: ' + _index.toString());
+      if(_index < widget.book.length - 1){
+        _index++;
+        _page = widget.book[_index];
+        print(_page);
+      }
+    });
+  }
+
+  void _previousPage(){
+    setState(() {
+      print('init index: ' + _index.toString());
+      if(_index > 0){
+        _index--;
+        _page = widget.book[_index];
+        print(_page);
+      }
     });
   }
 
@@ -38,6 +68,7 @@ class _BookContentState extends State<BookContent> {
                   children: <Widget>[
                     PageContent(
                       hideOptionsCallback: _hideOptions,
+                      page: _page,
                     ),
                   ],
                 ),
@@ -47,7 +78,10 @@ class _BookContentState extends State<BookContent> {
             visible: _isVisible,
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: BottomBookBar(),
+              child: BottomBookBar(
+                nextPageCallback: _nextPage,
+                previousPageCallback: _previousPage,
+              ),
             ),
           )
         ],

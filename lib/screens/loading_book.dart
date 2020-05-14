@@ -25,8 +25,6 @@ class _LoadingBookState extends State<LoadingBook> {
   _initBook() async {
     LoadBook loadBook = await LoadBook.create(_file);
     List book = await loadBook.toList();
-    int page = book.length;
-    int page2 = await loadBook.totalPages;
     Navigator.of(context).pushNamed('/book_content', arguments: book);
   }
 

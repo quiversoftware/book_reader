@@ -11,11 +11,9 @@ class PageContent extends StatefulWidget {
 }
 
 class _PageContentState extends State<PageContent> {
-  String _page;
   @override
   void initState(){
     super.initState();
-    _page = widget.page ?? '';
   }
 
   void screenTapped(){
@@ -31,7 +29,10 @@ class _PageContentState extends State<PageContent> {
             onTap: () => screenTapped(),
             child: Container(
               alignment: Alignment.center,
-              child: Text('Hello World!'),
+              child: SelectableText(
+                widget.page,
+                textAlign: TextAlign.center,
+              ),
               color: Color(0xfffdf5e6),
             )
         ),

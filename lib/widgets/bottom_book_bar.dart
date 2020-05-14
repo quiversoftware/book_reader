@@ -2,6 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BottomBookBar extends StatelessWidget {
+  final VoidCallback nextPageCallback;
+  final VoidCallback previousPageCallback;
+
+  BottomBookBar({this.previousPageCallback, this.nextPageCallback});
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -32,10 +37,12 @@ class BottomBookBar extends StatelessWidget {
 
   void _printLeft(){
     print('left button');
+    previousPageCallback();
   }
 
   void _printRight(){
     print('right button');
+    nextPageCallback();
   }
 
   void _printCenter(){
