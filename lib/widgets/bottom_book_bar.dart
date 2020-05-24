@@ -64,10 +64,10 @@ class PaginationButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [Colors.black54, Colors.transparent])),
+        gradient: LinearGradient(
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          colors: [Colors.black54, Colors.transparent])),
       height: MediaQuery.of(context).size.height * 0.05,
       child: RaisedButton(
         onPressed: () => buttonAction(),

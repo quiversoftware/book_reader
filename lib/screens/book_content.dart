@@ -1,5 +1,6 @@
 import 'package:book_reader/widgets/bottom_book_bar.dart';
 import 'package:book_reader/widgets/page_content.dart';
+import 'package:book_reader/widgets/search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,21 +13,33 @@ class BookContent extends StatefulWidget{
 }
 
 class _BookContentState extends State<BookContent> {
-  bool _isVisible = true;
+  bool _showOptionsBar = false;
+  bool _searchBarToggle = false;
   int _index = 0;
   String _page = '';
+  String _selectedText;
 
   @override
   void initState(){
     super.initState();
     _page = widget.book[_index];
+    _selectedText = '';
   }
 
 
-  void _hideOptions(){
-    print('has been touched');
+  void _optionsBarToggle(){
+    print('Toggling options bar');
     setState(() {
-      _isVisible = _isVisible ? false : true;
+      _showOptionsBar = _showOptionsBar ? false : true;
+    });
+  }
+
+  void _showSearchBar(bool toggle, String selectedText){
+//    print('Toggling search bar');
+    setState(() {
+      _searchBarToggle  = toggle;
+      _selectedText     = selectedText;
+      print('in book_content: ' + _selectedText);
     });
   }
 
@@ -67,15 +80,32 @@ class _BookContentState extends State<BookContent> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     PageContent(
-                      hideOptionsCallback: _hideOptions,
+                      optionsBarToggleCallback: _optionsBarToggle,
+                      showSearchBarCallback: _showSearchBar,
                       page: _page,
                     ),
                   ],
                 ),
               )
           ),
+
+          Visibility(
+            visible: _searchBarToggle,
+            child: Positioned(
+              top: 30,
+              left: MediaQuery.of(context).size.width * 0.10,
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: SearchBar(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                  width: MediaQuery.of(context).size.width * 0.80,
+                  selectedText: _selectedText,
+                )
+              ),
+            )
+          ),
           Visibility (
-            visible: _isVisible,
+            visible: _showOptionsBar,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: BottomBookBar(
