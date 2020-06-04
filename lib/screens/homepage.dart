@@ -1,4 +1,4 @@
-import 'dart:io';
+
 import 'package:book_reader/services/my_file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //            Navigator.of(context).pushNamed('/loading_book', arguments: file);
 //          }
           List list = new List();
-          list.add('page1 - The Conference on Information and Knowledge Management (CIKM) is a key event for the international academic, '
+          list.add('page1 - The Conference on Información información informacion and Knowledge Management (CIKM) is a key event for the international academic, '
               'business and government communities to discuss research on information retrieval, data science, and knowledge management. '
               'CIKM is uniquely situated to highlight '
               'technologies and insights that materialize the big data and artificial intelligence vision of the future.');

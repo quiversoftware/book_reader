@@ -1,11 +1,17 @@
+import 'package:book_reader/constants.dart';
+import 'package:book_reader/widgets/raeDialog.dart';
+import 'package:book_reader/widgets/translateDialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:book_reader/models/searching_options.dart';
+import 'package:book_reader/services/implementations/spanish_word_definition.dart';
+import 'package:translator/translator.dart';
+
 
 class SearchBar extends StatefulWidget {
   final double height;
   final double width;
   String selectedText;
+  final translator = new GoogleTranslator();
 
   SearchBar({this.width, this.height, this.selectedText});
 
@@ -13,10 +19,6 @@ class SearchBar extends StatefulWidget {
   _SearchBarState createState() => _SearchBarState();
 }
 
-
-_searchWordIn(String option){
-  print(option);
-}
 
 class _SearchBarState extends State<SearchBar> {
   var textController = new TextEditingController();
@@ -26,19 +28,60 @@ class _SearchBarState extends State<SearchBar> {
   Map _option3;
   String _dropdownValue;
   double _height, _width;
+  SpanishWordDefinition spanishWordDefinition;
 
+  _searchWordIn(String option, String wordToSearch) async{
+    String definitionInHtml, translatedWord;
+    if(option == SEARCH_OPTION[0]) { //option == RAE
+      definitionInHtml = await spanishWordDefinition.getDefinition(wordToSearch);
+    }else if(option == SEARCH_OPTION[1]){ //ing -> Esp
+      translatedWord = await widget.translator.translate(wordToSearch, from: 'en', to: 'es');
+    } else{ // fra -> Esp
+      translatedWord = await widget.translator.translate(wordToSearch, from: 'fr', to: 'es');
+    }
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: true, // user must tap button!
+        builder: (BuildContext context) {
+          switch(option){
+            case 'RAE' :
+              return RaeDialog(
+                  title: wordToSearch,
+                  definitionHtml: definitionInHtml
+              );
+              break;
+            case 'ing_esp' :
+              return TranslateDialog(
+                  wordToTranslate: wordToSearch,
+                  translatedWord: translatedWord
+              );
+            case 'fra_esp' :
+              return TranslateDialog(
+                  wordToTranslate: wordToSearch,
+                  translatedWord: translatedWord
+              );
+              break;
+            default :
+              return TranslateDialog(
+                  wordToTranslate: wordToSearch,
+                  translatedWord: translatedWord
+              );
+          }
+        },
+    );
+  }
 
   @override
   void initState(){
     super.initState();
-    SearchingOptions searchingOptions = new SearchingOptions();
+    spanishWordDefinition = new SpanishWordDefinition();
     textController.text = widget.selectedText ?? '';
 
     _dropdownValue = 'RAE';
-    _option0 = searchingOptions.options[0];
-    _option1 = searchingOptions.options[1];
-    _option2 = searchingOptions.options[2];
-    _option3 = searchingOptions.options[3];
+    _option0 = SEARCH_OPTIONS_DATA[0];
+    _option1 = SEARCH_OPTIONS_DATA[1];
+    _option2 = SEARCH_OPTIONS_DATA[2];
+    _option3 = SEARCH_OPTIONS_DATA[3];
 
     _height  = widget.height;
     _width   = widget.width;
@@ -101,7 +144,7 @@ class _SearchBarState extends State<SearchBar> {
                     onChanged: (value) {
                       setState(() {
                         _dropdownValue = value;
-                        _searchWordIn(_dropdownValue);
+                        _searchWordIn(_dropdownValue, textController.text);
                       });
                     },
                     value: _dropdownValue,
