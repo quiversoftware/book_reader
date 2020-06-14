@@ -1,14 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:book_reader/constants.dart';
 
 class TranslateDialog extends StatelessWidget {
   final String wordToTranslate;
   final String translatedWord;
 
   TranslateDialog({this.translatedWord, this.wordToTranslate});
-
-
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,8 @@
 import 'package:book_reader/constants.dart';
-import 'package:book_reader/widgets/raeDialog.dart';
-import 'package:book_reader/widgets/translateDialog.dart';
+import 'package:book_reader/services/implementations/google_images.dart';
+import 'package:book_reader/widgets/images_dialog.dart';
+import 'package:book_reader/widgets/rae_dialog.dart';
+import 'package:book_reader/widgets/translate_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:book_reader/services/implementations/spanish_word_definition.dart';
@@ -29,15 +31,41 @@ class _SearchBarState extends State<SearchBar> {
   String _dropdownValue;
   double _height, _width;
   SpanishWordDefinition spanishWordDefinition;
+  GoogleImages googleImages;
+
+  @override
+  void initState(){
+    super.initState();
+    spanishWordDefinition = new SpanishWordDefinition();
+    googleImages = new GoogleImages();
+    textController.text = widget.selectedText ?? '';
+
+    _dropdownValue = 'RAE';
+    _option0 = SEARCH_OPTIONS_DATA[0];
+    _option1 = SEARCH_OPTIONS_DATA[1];
+    _option2 = SEARCH_OPTIONS_DATA[2];
+    _option3 = SEARCH_OPTIONS_DATA[3];
+
+    _height  = widget.height;
+    _width   = widget.width;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    textController.dispose();
+  }
 
   _searchWordIn(String option, String wordToSearch) async{
-    String definitionInHtml, translatedWord;
+    String definitionInHtml, translatedWord, images;
     if(option == SEARCH_OPTION[0]) { //option == RAE
       definitionInHtml = await spanishWordDefinition.getDefinition(wordToSearch);
     }else if(option == SEARCH_OPTION[1]){ //ing -> Esp
       translatedWord = await widget.translator.translate(wordToSearch, from: 'en', to: 'es');
-    } else{ // fra -> Esp
+    } else if(option == SEARCH_OPTION[2]){ // fra -> Esp
       translatedWord = await widget.translator.translate(wordToSearch, from: 'fr', to: 'es');
+    } else {
+      translatedWord = '' ;
     }
     return showDialog<void>(
         context: context,
@@ -61,6 +89,10 @@ class _SearchBarState extends State<SearchBar> {
                   translatedWord: translatedWord
               );
               break;
+            case 'images' :
+              return ImagesDialog(
+                  wordToSearch: wordToSearch
+              );
             default :
               return TranslateDialog(
                   wordToTranslate: wordToSearch,
@@ -69,28 +101,6 @@ class _SearchBarState extends State<SearchBar> {
           }
         },
     );
-  }
-
-  @override
-  void initState(){
-    super.initState();
-    spanishWordDefinition = new SpanishWordDefinition();
-    textController.text = widget.selectedText ?? '';
-
-    _dropdownValue = 'RAE';
-    _option0 = SEARCH_OPTIONS_DATA[0];
-    _option1 = SEARCH_OPTIONS_DATA[1];
-    _option2 = SEARCH_OPTIONS_DATA[2];
-    _option3 = SEARCH_OPTIONS_DATA[3];
-
-    _height  = widget.height;
-    _width   = widget.width;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    textController.dispose();
   }
 
   @override
